@@ -6,7 +6,7 @@
 import { useEffect, useState } from "react";
 
 import { useMediaQuery } from "@/hooks";
-import Header from "@/shared/components/Header";
+
 import Sidebar from "@/shared/components/Sidebar";
 import Mainheader from "../components/mainheader";
 import Loader from "../components/Loader";
