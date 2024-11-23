@@ -8,8 +8,7 @@ import { useEffect, useState } from "react";
 import { useMediaQuery } from "@/hooks";
 
 import Sidebar from "@/shared/components/Sidebar";
-import Mainheader from "../components/mainheader";
-import Loader from "../components/Loader";
+
 import { useSelector } from "react-redux";
 import { globalLoading } from "@/states/slices/authReducer";
 import SidebarV2 from "../components/Sidebar/sidebarV2";
