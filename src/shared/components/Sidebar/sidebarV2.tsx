@@ -29,7 +29,7 @@ import { useAppSelector, useMediaQuery } from "@/hooks";
 import { getBackgroundColor } from "@/utils/functions/userDynamicColor";
 import { selectUser } from "@/states/slices/authReducer";
 import Button from "../button";
-import { useAppQuery } from "@/context/useContext";
+
 import { MAN, ONLINE_STATUS, RING, STATUS, TRASH } from "@/utils/image_exports";
 import ButtonV2 from "../buttonV2";
 import { Bounce, Fade } from "react-awesome-reveal";
@@ -43,12 +43,6 @@ interface SidebarProps {
 const SidebarV2 = (props: SidebarProps) => {
   const { open, onClose, setOpen } = props;
 
-  const {
-    setSelectedLog,
-    setShowtransactionlayout,
-    setAddProductModal,
-    addproductModal,
-  } = useAppQuery();
   const Menus = [
     { title: "Saved", src: "/svg/saved.svg", path: "/saved-listings" },
     { title: "Discover", src: "/svg/brand.svg", path: "/discover" },
@@ -81,15 +75,6 @@ const SidebarV2 = (props: SidebarProps) => {
   const pathname = usePathname();
   const router = useRouter();
 
-  const handleSetTarget = (path: string) => {
-    if (path === "/wallet") {
-      setSelectedLog("fiat-wallet");
-      setShowtransactionlayout(true);
-    }
-  };
-
-  console.log(open);
-
   return (
     <>
       {isMobileView || isTabletView ? (
@@ -120,18 +105,6 @@ const SidebarV2 = (props: SidebarProps) => {
                 </h1>
               </div>
               <ul className="pt-6">
-                <li
-                  className={`flex flex-row px-5 rounded-md mt-2 p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4 ${
-                    addproductModal ? "bg-brand text-white" : "text-gray-600"
-                  }`}
-                  onClick={() => {
-                    setAddProductModal(true);
-                    props.onClose();
-                  }}
-                >
-                  <img alt="" className="w-5 h-5" src="/svg/light-plus.svg" />
-                  <span className="origin-left duration-200">Add Product</span>
-                </li>
                 {Menus.map((Menu) => (
                   <li
                     className={`flex flex-row px-5 rounded-md mt-2 p-2 cursor-pointer hover:bg-light-white text-gray-600 text-sm items-center gap-x-4 ${
