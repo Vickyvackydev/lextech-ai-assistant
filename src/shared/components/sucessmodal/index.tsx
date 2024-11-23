@@ -12,7 +12,6 @@ interface Props {
 }
 const SuccessModal = ({ open, close, title, text, buttontext }: Props) => (
   <ModalV2
-    closeBtnColor=""
     edges="rounded-md"
     isBTnTrue={false}
     isClose={close}
