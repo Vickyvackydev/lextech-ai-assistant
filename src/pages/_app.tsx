@@ -1,5 +1,5 @@
 import { queryClient } from "@/config";
-import { AppProvider } from "@/context/useContext";
+
 import { persistor, Store } from "@/states/store";
 import "react-phone-input-2/lib/style.css";
 import "@/styles/globals.css";
@@ -15,12 +15,10 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <PersistGate persistor={persistor}>
       <Provider store={Store}>
-        <AppProvider>
-          <QueryClientProvider client={queryClient}>
-            <Component {...pageProps} />
-            <Toaster position="top-right" reverseOrder={false} />
-          </QueryClientProvider>
-        </AppProvider>
+        <QueryClientProvider client={queryClient}>
+          <Component {...pageProps} />
+          <Toaster position="top-right" reverseOrder={false} />
+        </QueryClientProvider>
       </Provider>
     </PersistGate>
   );

@@ -29,7 +29,7 @@ import { useAppDispatch, useAppSelector, useMediaQuery } from "@/hooks";
 import { getBackgroundColor } from "@/utils/functions/userDynamicColor";
 import { selectUser } from "@/states/slices/authReducer";
 import Button from "../button";
-import { useAppQuery } from "@/context/useContext";
+
 import {
   ADD_ICON,
   ARROW_ICON,
@@ -118,12 +118,7 @@ const Sidebar = (props: SidebarProps) => {
         break;
     }
   };
-  const {
-    setSelectedLog,
-    setShowtransactionlayout,
-    setAddProductModal,
-    addproductModal,
-  } = useAppQuery();
+
   const Menus = [
     { title: "Saved", src: "/svg/saved.svg", path: "/saved-listings" },
     { title: "Discover", src: "/svg/brand.svg", path: "/discover" },
@@ -156,15 +151,6 @@ const Sidebar = (props: SidebarProps) => {
   const pathname = usePathname();
   const router = useRouter();
 
-  const handleSetTarget = (path: string) => {
-    if (path === "/wallet") {
-      setSelectedLog("fiat-wallet");
-      setShowtransactionlayout(true);
-    }
-  };
-
-  console.log(open);
-
   return (
     <>
       {isMobileView || isTabletView ? (
@@ -179,7 +165,7 @@ const Sidebar = (props: SidebarProps) => {
           leaveTo="transform -translate-x-full"
           show={props.open}
         >
-          <div className="h-screen">
+          {/* <div className="h-screen">
             <div className="w-full bg-brand-light h-screen pt-8 relative duration-300">
               <div
                 className="flex gap-x-4 px-5 pt-2 cursor-pointer"
@@ -227,7 +213,7 @@ const Sidebar = (props: SidebarProps) => {
                 ))}
               </ul>
             </div>
-          </div>
+          </div> */}
         </Transition>
       ) : (
         <div className="flex h-screen">
