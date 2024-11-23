@@ -1,5 +1,7 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
+import { CLOSE_BTN } from "@/utils/image_exports";
 import { Dialog, Transition } from "@headlessui/react";
+import Image from "next/image";
 import React, { Fragment } from "react";
 import { FaTimes } from "react-icons/fa";
 
@@ -7,7 +9,7 @@ type ModalProps = {
   // state modal params types
   isOpen: boolean;
   isClose: () => void;
-  closeBtnColor: string;
+  padding?: boolean;
   children: React.ReactNode;
   maxWidth: string;
   isBTnTrue?: boolean;
@@ -19,7 +21,7 @@ const ModalV2 = ({
   isOpen,
   isClose,
   children,
-  closeBtnColor,
+  padding,
   maxWidth,
   isBTnTrue,
   edges,
@@ -49,18 +51,24 @@ const ModalV2 = ({
             leaveTo="translate-y-full"
           >
             <Dialog.Panel
-              className={` ${maxWidth} transform overflow-hidden ${edges} text-center bg-white dark:bg-bg_black  align-middle shadow-xl transition-all h-full`}
+              className={` ${maxWidth} transform overflow-hidden ${edges} flex items-end flex-col ${
+                padding && "p-3"
+              } justify-end text-center bg-white dark:bg-bg_black  align-middle shadow-xl transition-all h-full`}
             >
               {isBTnTrue === true ? (
                 <button
-                  className={`flex items-center justify-center float-end bg-darkblue text-white w-7 h-7 rounded-full ${closeBtnColor} hover:scale-90 transition-all `}
+                  className={`  hover:scale-90 transition-all `}
                   onClick={isClose}
                   type="button"
                 >
-                  <FaTimes />
+                  <Image
+                    src={CLOSE_BTN}
+                    className="w-[44.24px] h-[44.24px]"
+                    alt=""
+                  />
                 </button>
               ) : null}
-              <div className="mt-2 max-h-[500px] overflow-y-scroll overscroll-x-none ">
+              <div className=" w-full mt-2 max-h-[500px] overflow-y-scroll overscroll-x-none ">
                 {children}
               </div>
             </Dialog.Panel>

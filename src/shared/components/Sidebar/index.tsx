@@ -33,21 +33,40 @@ import { useAppQuery } from "@/context/useContext";
 import {
   ADD_ICON,
   ARROW_ICON,
+  BELL,
+  BELL_DARK,
+  BIO_ICON,
   BLUE_ICON,
   BUTTON,
   CHAT_ICON,
+  CHROME_ICON,
   CLOCK,
+  DARK_PASSWORD_ICON,
   DARK_STATUS,
+  DARK_THEME,
+  DISABLED,
+  DISABLED_ORANGE,
   DOCUMENT_ICON,
   GRAY_ICON,
   IMAGE_TOGGLER,
   LARGE_SEARCH,
   LEXTECH_AI_LOGO,
+  LIGHT_THEME,
+  LOCATION_ICON,
   MAN,
   ORANGE_ICON,
+  PAD_LOCK,
+  PASSWORD_ICON,
+  PROFILE,
+  PROFILE_,
+  PROFILE_GRAY_ICON,
   SEARCH_ICON,
+  SESSION_ICON,
+  SESSION_ICON_DARK,
   SETTINGS_ICON,
   SMALL_SEARCH,
+  SUN_ICON,
+  SUN_ICON_DARK,
   UPDATE_ICON,
 } from "@/utils/image_exports";
 import {
@@ -60,21 +79,45 @@ import {
 import { Fade } from "react-awesome-reveal";
 import ButtonV2 from "../buttonV2";
 import ModalV2 from "../modalV2";
+import Switch from "react-switch";
+import { Checkbox } from "@mui/material";
+import { ARROW_DOWN } from "@/utils/Exports";
 
 interface SidebarProps {
   open: boolean;
   onClose: () => void;
   setOpen: any;
 }
-
+const label = { inputProps: { "aria-label": "Checkbox demo" } };
 const Sidebar = (props: SidebarProps) => {
   const { onClose } = props;
-
+  const [tab, setTab] = useState("edit-profile");
+  const [settings, setSettings] = useState(false);
   const dispatch = useAppDispatch();
   const open = useAppSelector(SelectOpenState);
   const modalIsOpen = useAppSelector(openModal);
   const [lists, setLists] = useState(false);
 
+  const switchTabs = () => {
+    switch (tab) {
+      case "edit-profile":
+        return <EditProfile />;
+        break;
+      case "update-password":
+        return <UpdatePassword />;
+      case "notification":
+        return <Notification />;
+      case "session":
+        return <Session />;
+      case "appearance":
+        return <Appearance />;
+      case "delete-account":
+        return <DeleteAccount />;
+      default:
+        return <EditProfile />;
+        break;
+    }
+  };
   const {
     setSelectedLog,
     setShowtransactionlayout,
@@ -235,7 +278,10 @@ const Sidebar = (props: SidebarProps) => {
                 }}
                 className={`flex items-center rounded-lg p-3 cursor-pointer ${
                   !open && "justify-center"
-                } justify-start gap-x-5 hover:bg-gradient-to-r hover:from-[#323337] hover:via-[#323337] hover:to-[rgba(70,_79,_111,_0.3)]`}
+                } justify-start gap-x-5 hover:bg-gradient-to-r ${
+                  location.pathname === "/lextech-ai" &&
+                  "bg-gradient-to-r from-[#323337] via-[#323337] to-[rgba(70,_79,_111,_0.3)]"
+                } hover:from-[#323337] hover:via-[#323337] hover:to-[rgba(70,_79,_111,_0.3)]`}
               >
                 <Image src={CHAT_ICON} className="w-[24px] h-[24px]" alt="" />
                 {open && (
@@ -248,7 +294,7 @@ const Sidebar = (props: SidebarProps) => {
                 onClick={() => dispatch(setSearcModal(true))}
                 className={`flex items-center cursor-pointer rounded-lg p-3  ${
                   !open && "justify-center"
-                } justify-between hover:bg-gradient-to-r hover:from-[#323337] hover:via-[#323337] hover:to-[rgba(70,_79,_111,_0.3)]`}
+                }   justify-between hover:bg-gradient-to-r hover:from-[#323337] hover:via-[#323337] hover:to-[rgba(70,_79,_111,_0.3)]`}
               >
                 <div
                   className={`flex items-center ${
@@ -280,6 +326,9 @@ const Sidebar = (props: SidebarProps) => {
                 }}
                 className={`flex items-center p-3 rounded-lg cursor-pointer ${
                   !open && "justify-center"
+                } ${
+                  location.pathname === "/documents" &&
+                  "bg-gradient-to-r from-[#323337] via-[#323337] to-[rgba(70,_79,_111,_0.3)]"
                 } justify-start gap-x-5 hover:bg-gradient-to-r hover:from-[#323337] hover:via-[#323337] hover:to-[rgba(70,_79,_111,_0.3)]`}
               >
                 <Image
@@ -294,8 +343,15 @@ const Sidebar = (props: SidebarProps) => {
                 )}
               </li>
               <li
+                onClick={() => {
+                  router.push("/updates");
+                  dispatch(setOpen(false));
+                }}
                 className={`flex items-center p-3 cursor-pointer rounded-lg ${
                   !open && "justify-center"
+                } ${
+                  location.pathname === "/updates" &&
+                  "bg-gradient-to-r from-[#323337] via-[#323337] to-[rgba(70,_79,_111,_0.3)]"
                 } justify-start gap-x-5 hover:bg-gradient-to-r hover:from-[#323337] hover:via-[#323337] hover:to-[rgba(70,_79,_111,_0.3)]`}
               >
                 <Image src={UPDATE_ICON} className="w-[24px] h-[24px]" alt="" />
@@ -306,9 +362,10 @@ const Sidebar = (props: SidebarProps) => {
                 )}
               </li>
               <li
+                onClick={() => setSettings(true)}
                 className={`flex items-center cursor-pointer rounded-lg p-3 ${
                   !open && "justify-center"
-                } justify-start gap-x-5 hover:bg-gradient-to-r hover:from-[#323337] hover:via-[#323337] hover:to-[rgba(70,_79,_111,_0.3)]`}
+                }  justify-start gap-x-5 hover:bg-gradient-to-r hover:from-[#323337] hover:via-[#323337] hover:to-[rgba(70,_79,_111,_0.3)]`}
               >
                 <Image
                   src={SETTINGS_ICON}
@@ -525,7 +582,6 @@ const Sidebar = (props: SidebarProps) => {
         isClose={() => dispatch(setSearcModal(false))}
         maxWidth="w-[723px]"
         edges="rounded-2xl"
-        closeBtnColor=""
       >
         <div className="border-b py-3 flex items-center justify-start px-7 gap-x-3">
           <Image src={LARGE_SEARCH} className="w-[48px] h-[48px]" alt="" />
@@ -608,8 +664,517 @@ const Sidebar = (props: SidebarProps) => {
           </div>
         </div>
       </ModalV2>
+      <ModalV2
+        isBTnTrue
+        padding
+        isOpen={settings}
+        isClose={() => setSettings(false)}
+        edges="rounded-2xl"
+        maxWidth="w-[1003px]"
+      >
+        <div className="p-7 w-full flex items-start gap-x-[5rem]">
+          <div className="flex flex-col gap-y-4">
+            <div className="w-full flex flex-col cursor-pointer">
+              <div
+                className={`flex items-center justify-start pl-4 gap-x-3 ${
+                  tab === "edit-profile" && "border-2 border-[#007AFF]"
+                }  rounded-3xl w-[237px] h-[42px]  `}
+                onClick={() => setTab("edit-profile")}
+              >
+                <Image
+                  src={tab === "edit-profile" ? PROFILE : PROFILE_}
+                  className="w-[24px] h-[24px]"
+                  alt=""
+                />
+                <span
+                  className={` ${
+                    tab === "edit-profile" ? "text-[#4C4C4C]" : "text-[#464646]"
+                  }  font-semibold text-[18px]`}
+                >
+                  Edit profile
+                </span>
+              </div>
+            </div>
+            <div className="w-full flex flex-col gap-y-3 cursor-pointer">
+              <div
+                className={`flex items-center justify-start pl-4 gap-x-3 ${
+                  tab === "update-password" && "border-2 border-[#007AFF]"
+                }  rounded-3xl w-[237px] h-[42px]  `}
+                onClick={() => setTab("update-password")}
+              >
+                <Image
+                  src={
+                    tab === "update-password"
+                      ? DARK_PASSWORD_ICON
+                      : PASSWORD_ICON
+                  }
+                  className="w-[24px] h-[24px]"
+                  alt=""
+                />
+                <span
+                  className={` ${
+                    tab === "update-password"
+                      ? "text-[#4C4C4C]"
+                      : "text-[#464646]"
+                  }  font-semibold text-[18px]`}
+                >
+                  Password
+                </span>
+              </div>
+            </div>
+            <div className="w-full flex flex-col gap-y-3 cursor-pointer">
+              <div
+                className={`flex items-center justify-start pl-4 gap-x-3 ${
+                  tab === "notification" && "border-2 border-[#007AFF]"
+                }  rounded-3xl w-[237px] h-[42px]  `}
+                onClick={() => setTab("notification")}
+              >
+                <Image
+                  src={tab === "notification" ? BELL_DARK : BELL}
+                  className="w-[24px] h-[24px]"
+                  alt=""
+                />
+                <span className="text-[#464646] font-semibold text-[18px]">
+                  Notification
+                </span>
+              </div>
+            </div>
+            <div className="w-full flex flex-col gap-y-3 cursor-pointer">
+              <div
+                onClick={() => setTab("session")}
+                className={`flex items-center justify-start pl-4 gap-x-3 ${
+                  tab === "session" && "border-2 border-[#007AFF]"
+                }  rounded-3xl w-[237px] h-[42px]  `}
+              >
+                <Image
+                  src={tab === "session" ? SESSION_ICON_DARK : SESSION_ICON}
+                  className="w-[24px] h-[24px]"
+                  alt=""
+                />
+                <span className="text-[#464646] font-semibold text-[18px]">
+                  Sessions
+                </span>
+              </div>
+            </div>
+            <div className="w-full flex flex-col gap-y-3 cursor-pointer">
+              <div
+                onClick={() => setTab("appearance")}
+                className={`flex items-center justify-start pl-4 gap-x-3 ${
+                  tab === "appearance" && "border-2 border-[#007AFF]"
+                }  rounded-3xl w-[237px] h-[42px]  `}
+              >
+                <Image
+                  src={tab === "appearance" ? SUN_ICON_DARK : SUN_ICON}
+                  className="w-[24px] h-[24px]"
+                  alt=""
+                />
+                <span className="text-[#464646] font-semibold text-[18px]">
+                  Appearance
+                </span>
+              </div>
+            </div>
+            <div className="w-full flex flex-col gap-y-3 mt-11 cursor-pointer">
+              <div
+                onClick={() => setTab("delete-account")}
+                className={`flex items-center justify-start pl-4 gap-x-3 ${
+                  tab === "delete-account" && "border-2 border-[#D84210] "
+                }  rounded-3xl w-[237px] h-[42px]  `}
+              >
+                <Image
+                  src={tab === "delete-account" ? DISABLED_ORANGE : DISABLED}
+                  className="w-[24px] h-[24px]"
+                  alt=""
+                />
+                <span
+                  className={` ${
+                    tab === "delete-account"
+                      ? "text-[#D84C10]  "
+                      : "text-[#464646] "
+                  } font-semibold text-[18px]`}
+                >
+                  Delete account
+                </span>
+              </div>
+            </div>
+          </div>
+          <div className="w-full h-[500px] max-h-[500px] overflow-y-scroll">
+            {switchTabs()}
+          </div>
+        </div>
+      </ModalV2>
     </>
   );
 };
 
 export default Sidebar;
+
+export const EditProfile = () => {
+  return (
+    <div className="w-full flex flex-col items-start justify-start">
+      <div className="flex flex-col gap-y-3 items-start justify-start">
+        <span className="font-bold text-2xl">Edit Profile</span>
+
+        <div className="flex items-start gap-x-7">
+          <div className="flex flex-col gap-y-2 items-start">
+            <span className="font-semibold text-[18px]">Avatar</span>
+            <div>
+              <Image
+                src={MAN}
+                className="w-[109.71px] h-[109.71px] object-contain rounded-full"
+                alt=""
+              />
+            </div>
+          </div>
+          <div className="flex items-start flex-col gap-y-3">
+            <ButtonV2
+              title="Upload new image"
+              btnStyle="border border-[#EAEAEA] rounded-lg w-[203px] h-[52px] flex items-center justify-center"
+              handleClick={() => {}}
+              textStyle="text-black font-semibold"
+            />
+            <span className="text-[#AEAEAE] font-semibold text-[16px] text-start">
+              At least 800 x 800 px recommended. <br /> JPG or PNG and GIF is
+              allowed
+            </span>
+          </div>
+        </div>
+      </div>
+      <div className="flex flex-col items-start gap-y-8 w-full mt-4">
+        <div className="w-full flex items-start flex-col gap-y-1">
+          <span className="text-[16px] font-semibold">Name</span>
+          <div className="bg-[#F3F5F7] w-full flex items-start gap-x-3 px-3 py-4 rounded-lg">
+            <Image
+              src={PROFILE_GRAY_ICON}
+              className="w-[24px] h-[24px]"
+              alt=""
+            />
+            <input
+              type="text"
+              placeholder="Username"
+              className="w-full bg-transparent outline-none placeholder:text-[#A3A3A3] placeholder:text-[16px]"
+            />
+          </div>
+        </div>
+        <div className="w-full flex items-start flex-col gap-y-1">
+          <span className="text-[16px] font-semibold">Location</span>
+          <div className="bg-[#F3F5F7] w-full flex items-start gap-x-3 px-3 py-4 rounded-lg">
+            <Image src={LOCATION_ICON} className="w-[24px] h-[24px]" alt="" />
+            <input
+              type="text"
+              placeholder="Location"
+              className="w-full bg-transparent outline-none placeholder:text-[#A3A3A3] placeholder:text-[16px]"
+            />
+          </div>
+        </div>
+        <div className="w-full flex items-start flex-col gap-y-1">
+          <span className="text-[16px] font-semibold">Bio</span>
+          <div className="bg-[#F3F5F7] w-full flex items-start gap-x-3 p-3 rounded-lg">
+            <Image src={BIO_ICON} className="w-[24px] h-[24px]" alt="" />
+            <textarea
+              rows={5}
+              placeholder="Short bio"
+              className="w-full resize-none bg-transparent outline-none placeholder:text-[#A3A3A3] placeholder:text-[16px]"
+            />
+          </div>
+        </div>
+        <ButtonV2
+          title="Save changes"
+          btnStyle=" rounded-lg w-full h-[62px] flex items-center justify-center bg-[#1787FC]"
+          handleClick={() => {}}
+          textStyle="text-white font-semibold"
+        />
+      </div>
+    </div>
+  );
+};
+
+export const UpdatePassword = () => {
+  return (
+    <div className="w-full flex flex-col items-start justify-start">
+      <span className="font-bold text-2xl">Password</span>
+
+      <div className="mt-6 flex flex-col gap-y-5 w-full">
+        <div className="w-full flex items-start flex-col gap-y-1">
+          <span className="text-[16px] font-semibold">Password</span>
+          <div className="bg-[#F3F5F7] w-full flex items-start gap-x-3 p-3 rounded-lg">
+            <Image src={PAD_LOCK} className="w-[24px] h-[24px]" alt="" />
+            <input
+              type="password"
+              placeholder="Password"
+              className="w-full bg-transparent outline-none placeholder:text-[#A3A3A3] placeholder:text-[16px]"
+            />
+          </div>
+        </div>
+        <div className="w-full flex items-start flex-col gap-y-1">
+          <span className="text-[16px] font-semibold">New password</span>
+          <div className="bg-[#F3F5F7] w-full flex items-start gap-x-3 p-3 rounded-lg">
+            <Image src={PAD_LOCK} className="w-[24px] h-[24px]" alt="" />
+            <input
+              type="password"
+              placeholder="New password"
+              className="w-full bg-transparent outline-none placeholder:text-[#A3A3A3] placeholder:text-[16px]"
+            />
+          </div>
+          <span className="text-[#A3A3A3] text-[16px] font-semibold">
+            Minimum of 8 characters
+          </span>
+        </div>
+        <div className="w-full flex items-start flex-col gap-y-1">
+          <span className="text-[16px] font-semibold">
+            Confirm new password
+          </span>
+          <div className="bg-[#F3F5F7] w-full flex items-start gap-x-3 p-3 rounded-lg">
+            <Image src={PAD_LOCK} className="w-[24px] h-[24px]" alt="" />
+            <input
+              type="password"
+              placeholder="Confirm Password"
+              className="w-full bg-transparent outline-none placeholder:text-[#A3A3A3] placeholder:text-[16px]"
+            />
+          </div>
+          <span className="text-[#A3A3A3] text-[16px] font-semibold">
+            Minimum of 8 characters
+          </span>
+        </div>
+        <ButtonV2
+          title="Change password"
+          btnStyle=" rounded-lg w-full h-[62px] flex items-center justify-center bg-[#1787FC]"
+          handleClick={() => {}}
+          textStyle="text-white font-semibold"
+        />
+      </div>
+    </div>
+  );
+};
+export const Notification = () => {
+  const [checked, setChecked] = useState(false);
+  return (
+    <div className="w-full flex flex-col items-start justify-start">
+      <div className="flex items-center justify-between w-full border-b pb-5">
+        <span className="font-bold text-2xl">Password</span>
+        <Switch
+          onChange={(checked: boolean) => setChecked(checked)}
+          checked={checked}
+          offColor="#ccc"
+          onColor="#007bff"
+          uncheckedIcon={false}
+          checkedIcon={false}
+        />
+      </div>
+      <div className="mt-7 flex flex-col gap-y-7 items-start w-full">
+        <span className="font-semibold text-xl">LexTech Assitance</span>
+        <div className="w-full flex flex-col items-start">
+          <div className="w-full flex items-center justify-between">
+            <span className="text-[16px] font-semibold ">
+              Updates to existing answers
+            </span>
+            <Checkbox {...label} />
+          </div>
+          <div className="w-full flex items-center justify-between">
+            <span className="text-[16px] font-semibold ">
+              New relevant case law or statutes
+            </span>
+            <Checkbox {...label} />
+          </div>
+          <div className="w-full flex items-center justify-between">
+            <span className="text-[16px] font-semibold ">
+              Notifications when new research is available
+            </span>
+            <Checkbox {...label} />
+          </div>
+        </div>
+      </div>
+      <div className="mt-7 flex flex-col gap-y-7 items-start w-full">
+        <span className="font-semibold text-xl">General</span>
+        <div className="w-full flex flex-col items-start">
+          <div className="w-full flex items-center justify-between">
+            <span className="text-[16px] font-semibold ">
+              System updates and maintenance notifications
+            </span>
+            <Checkbox {...label} />
+          </div>
+          <div className="w-full flex items-center justify-between">
+            <span className="text-[16px] font-semibold ">
+              New feature announcements
+            </span>
+            <Checkbox {...label} />
+          </div>
+          <div className="w-full flex items-center justify-between">
+            <span className="text-[16px] font-semibold ">
+              Security alerts and notifications
+            </span>
+            <Checkbox {...label} />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+export const Session = () => {
+  return (
+    <div className="w-full flex flex-col items-start justify-start">
+      <div className="flex flex-col items-start gap-y-3 w-full ">
+        <span className="font-bold text-2xl">Password</span>
+        <span className="text-[17px] font-normal text-[#6C7275] text-start">
+          {" "}
+          This is a list of devices that have logged into your account. Revoke
+          any sessions that you do not recognize.
+        </span>
+      </div>
+      <div className="mt-5 w-full flex flex-col items-start">
+        <span className="text-[24px] font-normal border-b pb-4 w-full text-start">
+          Devices
+        </span>
+        <div className="flex flex-col gap-y-4 w-full mt-4">
+          <div className="flex items-center justify-between w-full border-b pb-3">
+            <div className="flex items-start justify-start gap-x-4">
+              <Image src={CHROME_ICON} className="w-[35px] h-[35px]" alt="" />
+              <div className="flex flex-col items-start">
+                <span className="text-[18px] font-semibold text-black">
+                  Chrome on iPhone
+                </span>
+                <span className="text-[#676767] font-semibold text-sm">
+                  222.225.225.222
+                </span>
+                <span className="text-[#676767] font-semibold text-sm">
+                  Signed in Nov 17, 2023
+                </span>
+              </div>
+            </div>
+            <ButtonV2
+              title="Revoke"
+              btnStyle="border border-[#CECECE] rounded-xl py-2 px-5"
+              textStyle="text-black"
+              handleClick={() => {}}
+            />
+          </div>
+          <div className="flex items-center justify-between w-full border-b pb-3">
+            <div className="flex items-start justify-start gap-x-4">
+              <Image src={CHROME_ICON} className="w-[35px] h-[35px]" alt="" />
+              <div className="flex flex-col items-start">
+                <span className="text-[18px] font-semibold text-black">
+                  Chrome on iPhone
+                </span>
+                <span className="text-[#676767] font-semibold text-sm">
+                  222.225.225.222
+                </span>
+                <span className="text-[#676767] font-semibold text-sm">
+                  Signed in Nov 17, 2023
+                </span>
+              </div>
+            </div>
+            <ButtonV2
+              title="Revoke"
+              btnStyle="border border-[#CECECE] rounded-xl py-2 px-5"
+              textStyle="text-black"
+              handleClick={() => {}}
+            />
+          </div>
+          <div className="flex items-center justify-between w-full border-b pb-3">
+            <div className="flex items-start justify-start gap-x-4">
+              <Image src={CHROME_ICON} className="w-[35px] h-[35px]" alt="" />
+              <div className="flex flex-col items-start">
+                <span className="text-[18px] font-semibold text-black">
+                  Chrome on iPhone
+                </span>
+                <span className="text-[#676767] font-semibold text-sm">
+                  222.225.225.222
+                </span>
+                <span className="text-[#676767] font-semibold text-sm">
+                  Signed in Nov 17, 2023
+                </span>
+              </div>
+            </div>
+            <ButtonV2
+              title="Revoke"
+              btnStyle="border border-[#CECECE] rounded-xl py-2 px-5"
+              textStyle="text-black"
+              handleClick={() => {}}
+            />
+          </div>
+        </div>
+      </div>
+      <ButtonV2
+        title="Sign out of all devices"
+        btnStyle=" rounded-lg w-full my-6 h-[62px] flex items-center justify-center bg-[#1787FC]"
+        handleClick={() => {}}
+        textStyle="text-white font-semibold"
+      />
+    </div>
+  );
+};
+export const Appearance = () => {
+  return (
+    <div className="w-full flex flex-col items-start justify-start">
+      <div className="flex flex-col items-start gap-y-7">
+        <span className="font-bold text-2xl">Appearance</span>
+        <div className="flex flex-col items-start w-full mt-4 gap-y-5">
+          <span className="text-[#4B4B4B] font-semibold text-xl">
+            Appearance
+          </span>
+          <div className="flex items-start gap-x-14">
+            <div className="flex items-start flex-col gap-y-1">
+              <Image src={DARK_THEME} className="w-[183px] h-[116px]" alt="" />
+              <span className="text-[#606060] font-medium text-[15px]">
+                Dark mode
+              </span>
+            </div>
+
+            <div className="flex items-start flex-col gap-y-1">
+              <Image src={LIGHT_THEME} className="w-[183px] h-[116px]" alt="" />
+              <span className="text-[#606060] font-medium text-[15px]">
+                Light mode
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="flex items-center justify-between w-full mt-14">
+        <span className="text-[#4B4B4B] font-semibold text-xl">
+          Primary language
+        </span>
+        <div className="w-[325px] px-3 py-4 rounded-lg bg-[#F0F0F0] flex items-center justify-between">
+          <span className="text-[#4B4B4B] font-semibold text-xl">
+            English (United state )
+          </span>
+          <Image src={ARROW_DOWN} className="w-[20px] h-[20px]" alt="" />
+        </div>
+      </div>
+    </div>
+  );
+};
+export const DeleteAccount = () => {
+  return (
+    <div className="w-full flex flex-col items-start justify-start">
+      <div className="flex flex-col items-start gap-y-3 w-full ">
+        <span className="font-bold text-2xl">We’re sorry to see you go</span>
+        <span className="text-[15px] font-normal text-[#6C7275] text-start">
+          {" "}
+          Warning: Deleting your account will permanently remove all of your
+          data and cannot be undone. This includes your profile, chats,
+          comments, and any other information associated with your account. Are
+          you sure you want to proceed with deleting your account?
+        </span>
+      </div>
+      <div className="mt-10 w-full flex flex-col gap-y-6">
+        <div className="w-full flex items-start flex-col gap-y-1">
+          <span className="text-[16px] font-semibold">Password</span>
+          <div className="bg-[#F3F5F7] w-full flex items-start gap-x-3 px-3 py-4 rounded-lg">
+            <Image src={PAD_LOCK} className="w-[24px] h-[24px]" alt="" />
+            <input
+              type="password"
+              placeholder="Password"
+              className="w-full bg-transparent outline-none placeholder:text-[#A3A3A3] placeholder:text-[16px]"
+            />
+          </div>
+        </div>
+        <ButtonV2
+          disabled
+          title="Delete account"
+          btnStyle=" bg-opacity-50 bg-[#D84210] rounded-lg w-full h-[62px] flex items-center justify-center bg-[#1787FC]"
+          handleClick={() => {}}
+          textStyle="text-white font-semibold"
+        />
+      </div>
+    </div>
+  );
+};

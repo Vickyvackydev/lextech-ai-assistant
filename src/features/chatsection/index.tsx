@@ -31,12 +31,19 @@ import { motion } from "framer-motion";
 import ModalV2 from "@/shared/components/modalV2";
 import { FaClock } from "react-icons/fa6";
 import { FaSearch } from "react-icons/fa";
+import { v4 as uuidv4 } from "uuid";
+import { useRouter } from "next/navigation";
 
 function ChatSection() {
   // const [chatStarted, setChatStarted] = useState(true);
+  const [messages, setMessages] = useState<any>([]);
+  const [inputMessage, setInputMessage] = useState("");
+  const router = useRouter();
   const dispatch = useAppDispatch();
   const chatStarted = useAppSelector(startChat);
   const open = useAppSelector(SelectOpenState);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
   const modalIsOpen = useAppSelector(openModal);
   const text = "Can I help you with anything?";
 
@@ -63,6 +70,40 @@ function ChatSection() {
       dispatch(setSearcModal(true));
     }
   };
+
+  const handleSend = () => {
+    setMessages([...messages, inputMessage]);
+    setInputMessage("");
+  };
+
+  const handleStartChat = () => {
+    const chatId = uuidv4();
+    dispatch(setChatStarted(true));
+    router.replace(`/lextech-ai/chat/${chatId}`);
+    handleSend();
+  };
+
+  const handleEnterMessage = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault(); // Prevents a new line in the textarea
+      handleSend();
+    }
+  };
+
+  // useEffect(()=>{
+  //   window.addEventListener('keydown', handleEnterMessage)
+
+  // },[])
+
+  useEffect(() => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop =
+        chatContainerRef.current.scrollHeight;
+    }
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
   useEffect(() => {
     window.addEventListener("keydown", handleControlKeyDown);
 
@@ -71,7 +112,10 @@ function ChatSection() {
   return (
     <div className="w-full pt-8 px-16">
       {chatStarted ? (
-        <div className="border-t pt-7 h-[500px] max-h-[500px] overflow-y-auto">
+        <div
+          ref={chatContainerRef}
+          className="border-t pt-7 h-[500px] max-h-[500px] overflow-y-auto"
+        >
           <div className="flex items-center justify-between">
             <span className="text-[18px] font-semibold text-black">
               Case Law Analysis
@@ -82,34 +126,38 @@ function ChatSection() {
               <Image src={DOTS} className="w-[28px] h-[28px]" alt="" />
             </div>
           </div>
-          <div className="flex flex-col gap-y-10 mt-8">
-            <div className="w-full flex flex-col items-start gap-y-2">
-              <div className="px-4 py-9 border border-[#E8ECEF] rounded-xl h-full">
-                <span className="text-[18px] font-semibold text-[#6E6E6E]">
-                  Write Detailed case for a simple welcome criminal suit and
-                  form with 3 input fields and a dropdown with 2 buttons, cancel
-                  and send, then run test with multiple parties.
+          {messages.map((mess: any) => (
+            <div className="flex flex-col gap-y-10 mt-8">
+              <div className="w-full flex flex-col items-end justify-end gap-y-2">
+                <div className="px-4 py-5 border border-[#E8ECEF] rounded-xl h-full">
+                  <span className="text-[18px] font-semibold text-[#6E6E6E]">
+                    {/* Write Detailed case for a simple welcome criminal suit and
+                 form with 3 input fields and a dropdown with 2 buttons, cancel
+                 and send, then run test with multiple parties. */}
+                    {mess}
+                  </span>
+                </div>
+                <span className="text-sm font-medium text-[#C9C9C9]">
+                  Just now
                 </span>
               </div>
-              <span className="text-[18px] font-medium text-[#C9C9C9]">
-                Just now
-              </span>
-            </div>
-            <div className="w-full relative gap-y-2">
-              <div className="px-4 py-9 bg-[#F3F5F7] rounded-xl h-full">
-                <span className="text-[18px] font-semibold text-[#6E6E6E]">
-                  Write Detailed case for a simple welcome criminal suit and
-                  form with 3 input fields and a dropdown with 2 buttons, cancel
-                  and send, then run test with multiple parties.
-                </span>
+              <div className="w-full relative gap-y-2">
+                <div className="px-4 py-5 bg-[#F3F5F7] rounded-xl h-full">
+                  <span className="text-[18px] font-semibold text-[#6E6E6E]">
+                    Write Detailed case for a simple welcome criminal suit and
+                    form with 3 input fields and a dropdown with 2 buttons,
+                    cancel and send, then run test with multiple parties.
+                  </span>
+                </div>
+                <Image
+                  src={AI_PHOTO}
+                  className="w-[30px] h-[30px] absolute right-9 -bottom-4"
+                  alt=""
+                />
               </div>
-              <Image
-                src={AI_PHOTO}
-                className="w-[40px] h-[40px] absolute right-9 -bottom-6"
-                alt=""
-              />
             </div>
-          </div>
+          ))}
+          <div ref={messagesEndRef} />
         </div>
       ) : (
         <>
@@ -217,19 +265,16 @@ function ChatSection() {
       )}
 
       <Bounce>
-        <div className="w-full border-2 py-2 overflow-hidden border-[#E8ECEF] rounded-lg flex items-center h-auto mt-16 px-3">
-          <button>
-            <Image
-              src={ADD_ICON}
-              className="w-[28px] h-[28px]"
-              alt="Add Icon"
-            />
-          </button>
-
+        <div className="w-full relative border-2 py-2 overflow-hidden border-[#E8ECEF] rounded-2xl flex flex-col items-center h-auto mt-16 px-3">
           <textarea
             name=""
             placeholder="Type a message..."
             rows={1}
+            onKeyDown={handleEnterMessage}
+            value={inputMessage}
+            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+              setInputMessage(e.target.value)
+            }
             onInput={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
               e.target.style.height = "auto";
               e.target.style.height = `${e.target.scrollHeight}px`;
@@ -237,13 +282,25 @@ function ChatSection() {
             className="w-full resize-none outline-none bg-transparent px-3 py-1"
           />
 
-          <button type="button" onClick={() => dispatch(setChatStarted(true))}>
-            <Image
-              src={SENDER}
-              className="w-[35px] h-[35px]"
-              alt="Sender Icon"
-            />
-          </button>
+          <div className="w-full flex items-center justify-between">
+            <button>
+              <Image
+                src={ADD_ICON}
+                className="w-[28px] h-[28px] "
+                alt="Add Icon"
+              />
+            </button>
+
+            <button type="button" onClick={handleStartChat}>
+              <Image
+                src={SENDER}
+                className={`w-[35px] h-[35px] ${
+                  !inputMessage.trim() && "opacity-50"
+                }`}
+                alt="Sender Icon"
+              />
+            </button>
+          </div>
         </div>
       </Bounce>
     </div>

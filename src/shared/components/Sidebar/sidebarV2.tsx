@@ -199,7 +199,7 @@ const SidebarV2 = (props: SidebarProps) => {
         </Transition>
       ) : (
         <div
-          className="flex h-screen z-20 flex-col py-7 w-[650px] bg-[#E8ECEF]"
+          className="flex h-screen z-20 flex-col py-7 w-[650px] bg-[#FEFEFE]"
           style={{ boxShadow: "inset 0 4px 6px rgba(0, 0, 0, 0.1)" }}
         >
           <div className="w-full h-[72px]  border-b border-[#E8ECEF] flex items-center justify-end gap-x-8 pr-6 pb-4">
@@ -231,7 +231,7 @@ const SidebarV2 = (props: SidebarProps) => {
               handleClick={() => {}}
             />
           </div>
-          <div className="h-full border-t inset-0 px-5 mt-7">
+          <div className="h-full  inset-0 px-5 mt-7">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-x-3">
                 <span className="text-[#6C7275BF] font-semibold text-sm">
