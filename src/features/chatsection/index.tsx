@@ -57,6 +57,9 @@ function ChatSection() {
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
 
+    if (files && files.length > 3) {
+      toast.error("you can only upload maximum of 3 files");
+    }
     if (files) {
       const selectedFiles = Array.from(files).slice(0, 3); // selects up to 3 images
       const validFiles = selectedFiles.filter((file) => file.size <= 1000000); // filter image larger than 3mb
@@ -155,13 +158,15 @@ function ChatSection() {
         </div>
         {messages.map((mess) => (
           <div className="flex flex-col gap-y-10 mt-8">
-            <div className="w-full flex flex-col items-end justify-end">
+            <div className="w-full flex flex-col items-end justify-end gap-y-2">
               <div className="flex items-center gap-x-1">
                 {mess.uploaded_files.length > 0 &&
                   mess.uploaded_files.map((file: any) => (
-                    <img
+                    <Image
                       src={file.preview}
-                      className="w-[150px] h-[150px] object-contain rounded-lg"
+                      width={100}
+                      height={100}
+                      className=" object-contain rounded-lg"
                       alt=""
                     />
                   ))}
