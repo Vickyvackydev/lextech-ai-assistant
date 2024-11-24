@@ -46,7 +46,7 @@ function Login() {
               title="Login"
               btnStyle="bg-[#141718] w-full rounded-lg py-3"
               textStyle="text-white font-medium text-sm"
-              handleClick={() => router.push("/lextech-ai")}
+              handleClick={() => router.push("/welcome")}
             />
             <span className="text-sm font-medium">
               Don't an account?{" "}

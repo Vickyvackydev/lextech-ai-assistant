@@ -9,12 +9,14 @@ export interface GlobalState {
   open: boolean;
   chatStarted: boolean;
   searchModal: boolean;
+  messages: Array<string>;
 }
 
 const initialState: GlobalState = {
   open: false,
   chatStarted: false,
   searchModal: false,
+  messages: [],
 };
 
 export const GlobalSlice = createSlice({
@@ -30,13 +32,17 @@ export const GlobalSlice = createSlice({
     setSearcModal: (state, action) => {
       state.searchModal = action.payload;
     },
+    setMessage: (state, action) => {
+      state.messages = action.payload;
+    },
   },
 });
 
-export const { setOpen, setChatStarted, setSearcModal } = GlobalSlice.actions;
+export const { setOpen, setChatStarted, setSearcModal, setMessage } =
+  GlobalSlice.actions;
 
 export const SelectOpenState = (state: RootState) => state.globalstate.open;
 export const startChat = (state: RootState) => state.globalstate.chatStarted;
 export const openModal = (state: RootState) => state.globalstate.searchModal;
-
+export const getMessages = (state: RootState) => state.globalstate.messages;
 export const GlobalReducer = GlobalSlice.reducer;

@@ -3,7 +3,7 @@ import ChatSection from "@/features/chatsection";
 import DashboardLayout from "@/shared/Layouts/DashboardLayout";
 import React from "react";
 
-function LexTechAi() {
+function Chat() {
   return (
     <DashboardLayout>
       <ChatSection />
@@ -11,4 +11,4 @@ function LexTechAi() {
   );
 }
 
-export default LexTechAi;
+export default Chat;

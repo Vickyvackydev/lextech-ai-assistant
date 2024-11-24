@@ -258,7 +258,7 @@ const Sidebar = (props: SidebarProps) => {
             >
               <li
                 onClick={() => {
-                  router.push("/lextech-ai");
+                  router.push("/welcome");
                   dispatch(setChatStarted(false));
                   dispatch(setOpen(false));
                 }}
@@ -508,7 +508,24 @@ const Sidebar = (props: SidebarProps) => {
                   </ul>
                 </Fade>
               )}
-              {open ? (
+              {!open && (
+                <div className=" w-[63px] -ml-1 mt-8 h-full bg-[#FFFFFF01] rounded-xl ">
+                  <div className="relative ">
+                    <Image
+                      src={MAN}
+                      className="w-[40px] h-[40px] rounded-full"
+                      alt="image"
+                    />
+                    <Image
+                      src={DARK_STATUS}
+                      className="w-[18px] h-[18px] rounded-full absolute right-5 top-7"
+                      alt="image"
+                    />
+                  </div>
+                </div>
+              )}
+
+              {open && (
                 <div className="w-full h-[148px] p-5 gap-y-6 shadow-dropShadow mt-6 flex flex-col items-center justify-center rounded-xl bg-[#FFFFFF01]">
                   <div className="flex items-center justify-between  w-full">
                     <div className="relative">
@@ -542,21 +559,6 @@ const Sidebar = (props: SidebarProps) => {
                     handleClick={() => {}}
                     textStyle="text-[#FEFEFE] font-semibold text-sm"
                   />
-                </div>
-              ) : (
-                <div className=" w-[63px] top-[250px] h-full bg-[#FFFFFF01] rounded-xl absolute bottom-0">
-                  <div className="relative ">
-                    <Image
-                      src={MAN}
-                      className="w-[40px] h-[40px] rounded-full"
-                      alt="image"
-                    />
-                    <Image
-                      src={DARK_STATUS}
-                      className="w-[18px] h-[18px] rounded-full absolute right-5 top-7"
-                      alt="image"
-                    />
-                  </div>
                 </div>
               )}
             </div>
