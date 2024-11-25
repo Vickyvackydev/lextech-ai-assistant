@@ -89,86 +89,8 @@ const SidebarV2 = (props: SidebarProps) => {
           leaveTo="transform -translate-x-full"
           show={props.open}
         >
-          <div className="h-screen">
-            <div className="w-full bg-brand-light h-screen pt-8 relative duration-300">
-              <div
-                className="flex gap-x-4 px-5 pt-2 cursor-pointer"
-                onClick={() => router.push("/dashboard")}
-              >
-                <Image
-                  alt=""
-                  className="cursor-pointer duration-500 rotate-[360deg]"
-                  src={""}
-                />
-                <h1 className="text-brand font-bold origin-left text-xl duration-200">
-                  Spottr
-                </h1>
-              </div>
-              <ul className="pt-6">
-                {Menus.map((Menu) => (
-                  <li
-                    className={`flex flex-row px-5 rounded-md mt-2 p-2 cursor-pointer hover:bg-light-white text-gray-600 text-sm items-center gap-x-4 ${
-                      pathname === Menu?.path
-                        ? "bg-brand text-white"
-                        : "text-gray-600"
-                    }`}
-                    key={Menu.title}
-                    onClick={() => {
-                      router.push(Menu.path);
-                    }}
-                  >
-                    <img alt="" className="w-5 h-5" src={Menu.src} />
-                    <span className="origin-left duration-200">
-                      {Menu.title}
-                    </span>
-                  </li>
-                ))}
-                {/* {isMobileView && (
-                  <>
-                    <li
-                      className={`flex flex-row px-5 rounded-md mt-2 p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4 ${
-                        pathname === "/discover"
-                          ? "bg-brand text-white"
-                          : "text-gray-600"
-                      }`}
-                      onClick={() => {
-                        router.push("/discover");
-                      }}
-                    >
-                      <img alt="" className="w-5 h-5" src={"/svg/brand.svg"} />
-                      <span className="origin-left duration-200">Discover</span>
-                    </li>
-                    <li
-                      className={`flex flex-row px-5 rounded-md mt-2 p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4 ${
-                        pathname === "/discover"
-                          ? "bg-brand text-white"
-                          : "text-gray-600"
-                      }`}
-                      onClick={() => {
-                        router.push("/discover");
-                      }}
-                    >
-                      <img alt="" className="w-5 h-5" src={"/svg/brand.svg"} />
-                      <span className="origin-left duration-200">Discover</span>
-                    </li>
-                    <li
-                      className={`flex flex-row px-5 rounded-md mt-2 p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4 ${
-                        pathname === "/discover"
-                          ? "bg-brand text-white"
-                          : "text-gray-600"
-                      }`}
-                      onClick={() => {
-                        router.push("/discover");
-                      }}
-                    >
-                      <img alt="" className="w-5 h-5" src={"/svg/brand.svg"} />
-                      <span className="origin-left duration-200">Discover</span>
-                    </li>
-                  </>
-                )} */}
-              </ul>
-            </div>
-          </div>
+          {/* mobile screen section */}
+          <div className="h-screen"></div>
         </Transition>
       ) : (
         <div

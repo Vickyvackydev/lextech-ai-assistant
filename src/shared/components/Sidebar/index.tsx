@@ -165,6 +165,7 @@ const Sidebar = (props: SidebarProps) => {
           leaveTo="transform -translate-x-full"
           show={props.open}
         >
+          {/* mobile screen section */}
           {/* <div className="h-screen">
             <div className="w-full bg-brand-light h-screen pt-8 relative duration-300">
               <div
@@ -237,9 +238,9 @@ const Sidebar = (props: SidebarProps) => {
                   dispatch(setChatStarted(false));
                   dispatch(setOpen(false));
                 }}
-                className={`cursor-pointer duration-500 ${
-                  open && "rotate-[360deg]"
-                } ${!open && "scale-0"}`}
+                className={`cursor-pointer duration-500 transition-all ${
+                  open ? "scale-100" : "scale-0"
+                } `}
                 src={LEXTECH_AI_LOGO}
               />
               <Image
@@ -573,9 +574,14 @@ const Sidebar = (props: SidebarProps) => {
       >
         <div className="border-b py-3 flex items-center justify-start px-7 gap-x-3">
           <Image src={LARGE_SEARCH} className="w-[48px] h-[48px]" alt="" />
-          <span className="text-[#A1A1A1] font-normal text-3xl">
+          <input
+            type="text"
+            className="bg-transparent outline-none pt-3 text-2xl w-full placeholder:text-[#A1A1A1]  placeholder:text-3xl placeholder:font-normal font-normal"
+            placeholder="Search ..."
+          />
+          {/* <span className="text-[#A1A1A1] font-normal text-3xl">
             Search ...
-          </span>
+          </span> */}
         </div>
         <div className=" py-3 px-7">
           <div className="flex items-center  justify-start gap-x-4">
