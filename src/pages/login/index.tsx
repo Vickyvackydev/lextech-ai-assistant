@@ -26,7 +26,7 @@ function Login() {
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="text-xs placeholder:text-[12px] placeholder:font-medium font-medium placeholder:text-[#D9D9D9] w-full rounded-lg border border-[#D9D9D9] p-3 outline-none"
+                className="text-xs placeholder:text-sm placeholder:font-medium font-medium placeholder:text-[#D9D9D9] w-full rounded-lg border border-[#D9D9D9] p-3 outline-none"
               />
             </div>
             <div className="flex items-start gap-y-1 flex-col">
@@ -35,7 +35,7 @@ function Login() {
                 <input
                   type="password"
                   placeholder="........."
-                  className="text-xs placeholder:text-[12px] placeholder:font-medium font-medium placeholder:text-[#D9D9D9] w-full outline-none"
+                  className="text-xs placeholder:text-sm placeholder:font-medium font-medium placeholder:text-[#D9D9D9] w-full outline-none"
                 />
                 <FaEye size={15} className="text-gray-300" />
               </div>
